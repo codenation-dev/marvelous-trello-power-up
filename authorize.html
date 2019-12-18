@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang=en>
+<head>
+    <meta charset=utf-8>
+    <title>Autorizar</title>
+    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+</head>
+<body>
+<button type="button">Autorizar</button>
+<script src="https://p.trellocdn.com/power-up.min.js"></script>
+<script src="app.js"></script>
+<script>
+    const t = window.TrelloPowerUp.iframe({
+        appKey: appKey,
+        appName: appName,
+    });
+    t.render(function () {
+        document.querySelector('button').addEventListener('click', function () {
+            t.getRestApi()
+                .authorize({scope: 'read'})
+                .then(function (t) {
+                    t.alert({
+                        message: 'Autorização realizada com sucesso!🎉',
+                        duration: 6,
+                        display: 'success'
+                    });
+                    t.closePopup();
+                })
+                .catch(TrelloPowerUp.restApiError.AuthDeniedError, function () {
+                    t.alert({
+                        message: 'Autorização não realizada!🎉',
+                        duration: 6,
+                        display: 'error'
+                    });
+                })
+        }, false);
+    });
+</script>
+</body>
+</html>
